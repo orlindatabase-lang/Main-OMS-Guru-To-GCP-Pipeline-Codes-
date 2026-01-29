@@ -18,7 +18,7 @@ EMAIL_TO = ["orlindatabase@gmail.com", "alpeshorlin@gmail.com"]
 # ========================================
 # SYNC CONFIGURATION
 # ========================================
-DAYS_TO_FETCH = 2  # Fetch last 2 days (today + yesterday) for cross-check
+DAYS_TO_FETCH = 20  # Fetch last 2 days (today + yesterday) for cross-check
 RETRY_ATTEMPTS = 5  # Number of retry attempts for API calls
 THROTTLE_WAIT = 60  # Seconds to wait when API is throttled
 
@@ -431,4 +431,5 @@ def sync_oms_data():
 
 if __name__ == "__main__":
     result = sync_oms_data()
+
     print(f"\nFinal Result: {result}")
