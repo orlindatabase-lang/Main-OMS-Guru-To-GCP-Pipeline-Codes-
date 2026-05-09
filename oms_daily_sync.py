@@ -289,7 +289,7 @@ PARENT_COLS = ["invoice_id","invoice_date","order_date","shipment_date","deliver
                "buyer_city","buyer_state","buyer_pincode","buyer_phone","buyer_email",
                "billing_name","billing_address1","billing_address2","billing_city",
                "billing_state","billing_pincode","billing_phone","billing_email",
-               "shipping_company","shipment_tracker","order_type"]
+               "shipping_company","shipment_tracker","order_type","po_number"]
 
 ITEM_COLS   = ["channel_order_id","channel_sub_order_id","sku_code","qty",
                "selling_price_per_item","shipping_charge_per_item","promo_discounts",
@@ -356,6 +356,7 @@ def save_to_bigquery(df):
         bigquery.SchemaField("order_date",     "DATETIME"),
         bigquery.SchemaField("shipment_date",  "DATETIME"),
         bigquery.SchemaField("delivered_date", "DATETIME"),
+        bigquery.SchemaField("load_date",      "DATE"),
     ]
 
     job = bq.load_table_from_dataframe(
@@ -432,6 +433,7 @@ def save_to_bigquery(df):
       target.pack_log                 = source.pack_log,
       target.sku_upc                  = source.sku_upc,
       target.listing_sku              = source.listing_sku,
+      target.po_number                = source.po_number,
       target.load_date                = source.load_date
     WHEN NOT MATCHED THEN INSERT ROW
     """).result()
