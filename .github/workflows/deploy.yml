@@ -46,7 +46,7 @@ jobs:
       - name: Update Cloud Run Job
         run: |
           gcloud run jobs update oms-backfill-job \
-            --image=gcr.io/orlinappareldataset/oms-daily-sync:${{ github.sha }} \
+            --image=gcr.io/orlinappareldataset/oms-daily-sync:latest \
             --region=asia-south1 \
             --project=orlinappareldataset \
             --task-timeout=10800
