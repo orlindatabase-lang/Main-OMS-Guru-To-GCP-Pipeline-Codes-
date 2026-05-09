@@ -29,19 +29,11 @@ jobs:
       - name: Set up Cloud SDK
         uses: google-github-actions/setup-gcloud@v2
 
-      - name: Configure Docker for GCR
-        run: gcloud auth configure-docker gcr.io --quiet
-
-      - name: Build Docker image
+      - name: Build and push via Cloud Build
         run: |
-          docker build \
-            -t gcr.io/orlinappareldataset/oms-daily-sync:${{ github.sha }} \
-            -t gcr.io/orlinappareldataset/oms-daily-sync:latest .
-
-      - name: Push Docker image
-        run: |
-          docker push gcr.io/orlinappareldataset/oms-daily-sync:${{ github.sha }}
-          docker push gcr.io/orlinappareldataset/oms-daily-sync:latest
+          gcloud builds submit \
+            --tag gcr.io/orlinappareldataset/oms-daily-sync:latest \
+            --project=orlinappareldataset
 
       - name: Update Cloud Run Job
         run: |
@@ -52,4 +44,4 @@ jobs:
             --task-timeout=10800
 
       - name: Done
-        run: echo "✅ Deployed successfully! Image SHA ${{ github.sha }}"
+        run: echo "Deployed successfully!"
