@@ -385,6 +385,13 @@ def process(all_raw):
     df = df[all_desired + extra]
 
     df["channel_sub_order_id"] = df["channel_sub_order_id"].astype(str).str.strip()
+    df["channel_order_id"]     = df["channel_order_id"].astype(str).str.strip()
+
+    # OMS API now sends channel_order_id blank and puts the value in channel_sub_order_id.
+    # Restore channel_order_id from channel_sub_order_id when blank.
+    blank_mask = df["channel_order_id"].isin(["", "nan", "None"])
+    df.loc[blank_mask, "channel_order_id"] = df.loc[blank_mask, "channel_sub_order_id"]
+
     df = df[df["channel_sub_order_id"].notna() & (df["channel_sub_order_id"] != "")]
 
     before = len(df)
